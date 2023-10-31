@@ -1,0 +1,14 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.app {
+  font-size: 3em;
+}
+
+.app button {
+  box-shadow: 0px 3px 16px 1px #696969;
+}
