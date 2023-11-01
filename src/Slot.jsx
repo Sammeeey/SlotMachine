@@ -1,29 +1,49 @@
+import { useState } from 'react'
 import './Slot.css'
 
-function Slot({ ...fruitValsObj }) {
-    const fruitsArray = Object.values(fruitValsObj)
-    console.log(fruitsArray)
+
+function randomFruits(){
+    const potentialFruitArray = ['🍌', '🍒', '🍏', '🍓', '🥑']
+    const fruitArr = []
+  
+    const randomFruit = () => potentialFruitArray[Math.floor(Math.random() * potentialFruitArray.length)]
     
-    let winning = fruitsArray.every((val, i, arr) => val == arr[0])
+    for (let fruit = 1; fruit <= 3; fruit++){
+      fruitArr.push(randomFruit())
+    }
+    console.log(fruitArr)
+    
+    return fruitArr
+  }
+
+function Slot() {
+    const [fruits, setFruits] = useState(() => randomFruits())
+
+    function newFruits(){
+        setFruits(randomFruits())
+    }
+
+    console.log(fruits)
+    
+    let winning = fruits.every((val, i, arr) => val == arr[0])
     console.log(winning)
 
     // all 🥑 = jackpot
-    let jackpot = fruitsArray.every((val, i, arr) => val == '🥑')
+    let jackpot = fruits.every((val, i, arr) => val == '🥑')
 
-    console.log(fruitValsObj)
-    const fruitKeys = Object.keys(fruitValsObj)
-    console.log(fruitKeys)
-
-    const fruits = fruitsArray.map((fruit, i) => <span key={fruitKeys[i]}>{fruit}</span>)
-    console.log(fruits)
+    const fruitsList = fruits.map((fruit, i) => <span key={i}>{fruit}</span>)
+    console.log(fruitsList)
 
     return (
+        <>
         <div className="slot">
-            <p>{fruits}</p>
+            <p>{fruitsList}</p>
             <p style={{color: winning ? 'green' : 'red', fontSize: '1.4em'}}>{winning ? 'You win' : 'You lose'}</p>
             {jackpot ? <p>Jackpot!🎉🥳🎉</p> : null}
             {winning && <p className='gratulation'>Congrats!</p>}
         </div>
+        <button type="button" onClick={() => setFruits(randomFruits())}>Play again</button>
+        </>
     )
 }
 
